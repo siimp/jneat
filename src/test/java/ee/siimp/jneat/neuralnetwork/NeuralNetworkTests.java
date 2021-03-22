@@ -1,6 +1,7 @@
 package ee.siimp.jneat.neuralnetwork;
 
 import ee.siimp.jneat.genetics.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,23 +9,30 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NeuralNetworkTests {
 
+    private GenePool genePool;
+
+    @BeforeEach
+    public void beforeEach() {
+        genePool = new GenePool();
+    }
+
     @Test
     public void testNoActivationFunctionBetweenInputAndOutput() {
         Genome genome = new Genome();
 
-        OutputNodeGene output = new OutputNodeGene();
+        OutputNodeGene output = genePool.getOutputNodeGene(0);
         genome.addGene(output);
 
-        InputNodeGene input1 = new InputNodeGene();
+        InputNodeGene input1 = genePool.getInputNodeGene(0);
         genome.addGene(input1);
 
-        InputNodeGene input2 = new InputNodeGene();
+        InputNodeGene input2 = genePool.getInputNodeGene(1);
         genome.addGene(input2);
 
 
-        genome.addGene(GenePool.getConnectionGene(input1, output));
+        genome.addGene(genePool.getConnectionGene(input1, output));
 
-        genome.addGene(GenePool.getConnectionGene(input2, output));
+        genome.addGene(genePool.getConnectionGene(input2, output));
 
         input1.setValue(-1);
         input2.setValue(-1);
@@ -44,18 +52,18 @@ public class NeuralNetworkTests {
     public void testSingleHiddenNodeHasActivationFunction() {
         Genome genome = new Genome();
 
-        OutputNodeGene output = new OutputNodeGene();
+        OutputNodeGene output = genePool.getOutputNodeGene(0);
         genome.addGene(output);
 
-        InputNodeGene input = new InputNodeGene();
+        InputNodeGene input = genePool.getInputNodeGene(0);
         genome.addGene(input);
 
-        HiddenNodeGene hidden = new HiddenNodeGene();
+        HiddenNodeGene hidden = genePool.getHiddenNodeGene(0);
         genome.addGene(hidden);
 
-        genome.addGene(GenePool.getConnectionGene(input, hidden));
+        genome.addGene(genePool.getConnectionGene(input, hidden));
 
-        genome.addGene(GenePool.getConnectionGene(hidden, output));
+        genome.addGene(genePool.getConnectionGene(hidden, output));
 
         input.setValue(-100);
 
@@ -78,13 +86,13 @@ public class NeuralNetworkTests {
     public void testNotExpressedCalculation() {
         Genome genome = new Genome();
 
-        OutputNodeGene output = new OutputNodeGene();
+        OutputNodeGene output = genePool.getOutputNodeGene(0);
         genome.addGene(output);
 
-        InputNodeGene input = new InputNodeGene();
+        InputNodeGene input = genePool.getInputNodeGene(0);
         genome.addGene(input);
 
-        ConnectionGene connectionGene = GenePool.getConnectionGene(input, output);
+        ConnectionGene connectionGene = genePool.getConnectionGene(input, output);
         connectionGene.setExpressed(false);
         genome.addGene(connectionGene);
 
@@ -99,15 +107,15 @@ public class NeuralNetworkTests {
     public void testBias() {
         Genome genome = new Genome();
 
-        OutputNodeGene output = new OutputNodeGene();
+        OutputNodeGene output = genePool.getOutputNodeGene(0);
         genome.addGene(output);
         output.setBias(1);
 
-        InputNodeGene input = new InputNodeGene();
+        InputNodeGene input = genePool.getInputNodeGene(0);
         genome.addGene(input);
 
 
-        genome.addGene(GenePool.getConnectionGene(input, output));
+        genome.addGene(genePool.getConnectionGene(input, output));
 
         input.setValue(1);
 

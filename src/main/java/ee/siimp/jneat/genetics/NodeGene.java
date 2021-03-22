@@ -7,6 +7,12 @@ import lombok.Setter;
 @Setter
 public class NodeGene implements Gene {
 
+    private final int index;
+
+    protected NodeGene(int index) {
+        this.index = index;
+    }
+
     // Neuron output value
     private double value;
 
