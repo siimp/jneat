@@ -21,26 +21,21 @@ public class NeuralNetworkTests {
         InputNodeGene input2 = new InputNodeGene();
         genome.addGene(input2);
 
-        ConnectionGene connectionGene1 = new ConnectionGene();
-        connectionGene1.setSource(input1);
-        connectionGene1.setDestination(output);
-        genome.addGene(connectionGene1);
 
-        ConnectionGene connectionGene2 = new ConnectionGene();
-        connectionGene2.setSource(input2);
-        connectionGene2.setDestination(output);
-        genome.addGene(connectionGene2);
+        genome.addGene(GenePool.getConnectionGene(input1, output));
+
+        genome.addGene(GenePool.getConnectionGene(input2, output));
 
         input1.setValue(-1);
         input2.setValue(-1);
 
-        genome.calculate();
+        NeuralNetwork.calculate(genome);
         assertEquals( -2, output.getValue(),0.1);
 
         input1.setValue(1);
         input2.setValue(1);
 
-        genome.calculate();
+        NeuralNetwork.calculate(genome);
         assertEquals( 2, output.getValue(), 0.1);
 
     }
@@ -58,29 +53,23 @@ public class NeuralNetworkTests {
         HiddenNodeGene hidden = new HiddenNodeGene();
         genome.addGene(hidden);
 
-        ConnectionGene connectionGene1 = new ConnectionGene();
-        connectionGene1.setSource(input);
-        connectionGene1.setDestination(hidden);
-        genome.addGene(connectionGene1);
+        genome.addGene(GenePool.getConnectionGene(input, hidden));
 
-        ConnectionGene connectionGene2 = new ConnectionGene();
-        connectionGene2.setSource(hidden);
-        connectionGene2.setDestination(output);
-        genome.addGene(connectionGene2);
+        genome.addGene(GenePool.getConnectionGene(hidden, output));
 
         input.setValue(-100);
 
-        genome.calculate();
+        NeuralNetwork.calculate(genome);
         assertEquals( 0, output.getValue(),0.1);
 
         input.setValue(0);
 
-        genome.calculate();
+        NeuralNetwork.calculate(genome);
         assertEquals( 0.5, output.getValue(), 0.1);
 
         input.setValue(100);
 
-        genome.calculate();
+        NeuralNetwork.calculate(genome);
         assertEquals( 1, output.getValue(), 0.1);
 
     }
@@ -95,15 +84,13 @@ public class NeuralNetworkTests {
         InputNodeGene input = new InputNodeGene();
         genome.addGene(input);
 
-        ConnectionGene connectionGene = new ConnectionGene();
-        connectionGene.setSource(input);
-        connectionGene.setDestination(output);
+        ConnectionGene connectionGene = GenePool.getConnectionGene(input, output);
         connectionGene.setExpressed(false);
         genome.addGene(connectionGene);
 
         input.setValue(-1);
 
-        genome.calculate();
+        NeuralNetwork.calculate(genome);
         assertEquals( 0, output.getValue(),0.1);
 
     }
@@ -120,15 +107,11 @@ public class NeuralNetworkTests {
         genome.addGene(input);
 
 
-        ConnectionGene connectionGene = new ConnectionGene();
-        connectionGene.setSource(input);
-        connectionGene.setDestination(output);
-        genome.addGene(connectionGene);
-
+        genome.addGene(GenePool.getConnectionGene(input, output));
 
         input.setValue(1);
 
-        genome.calculate();
+        NeuralNetwork.calculate(genome);
         assertEquals( 2, output.getValue(),0.1);
 
     }

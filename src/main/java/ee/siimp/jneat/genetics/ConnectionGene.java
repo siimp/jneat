@@ -4,18 +4,25 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
 public class ConnectionGene implements Gene {
 
-    private NodeGene source;
+    private final NodeGene source;
 
-    private NodeGene destination;
+    private final NodeGene destination;
 
+    private final int innovation;
+
+    @Setter
     private double weight = 1.0;
 
+    @Setter
     private boolean expressed = true;
 
-    private int innovation;
+    protected ConnectionGene(NodeGene source, NodeGene destination, int innovation) {
+        this.source = source;
+        this.destination = destination;
+        this.innovation = innovation;
+    }
 
     @Override
     public boolean isConnection() {

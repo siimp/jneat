@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-public class Genome implements NeuralNetwork {
+public class Genome {
 
     private List<Gene> genes = new ArrayList<>();
 

@@ -9,4 +9,11 @@ package ee.siimp.jneat.genetics;
  */
 public class GenePool {
 
+    private static int globalInnovationNumber = 1;
+
+    public static ConnectionGene getConnectionGene(NodeGene source, NodeGene destination) {
+        ConnectionGene connectionGene = new ConnectionGene(source, destination, globalInnovationNumber++);
+        return connectionGene;
+    }
+
 }

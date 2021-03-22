@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class NodeGene implements Gene {
 
-    // Neuron properties
+    // Neuron output value
     private double value;
 
     private double bias = 0.0;
