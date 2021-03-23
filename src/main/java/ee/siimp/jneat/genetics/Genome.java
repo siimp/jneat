@@ -16,6 +16,8 @@ public class Genome {
 
     private List<InputNodeGene> inputNodeGenes = new ArrayList<>();
 
+    private List<ConnectionGene> connectionGenes = new ArrayList<>();
+
     private Map<NodeGene, List<ConnectionGene>> inputs = new HashMap<>();
 
     public void addGene(Gene gene) {
@@ -25,6 +27,7 @@ public class Genome {
             inputNodeGenes.add((InputNodeGene) gene);
         } else if (gene.isConnection()) {
             ConnectionGene connectionGene = (ConnectionGene) gene;
+            connectionGenes.add(connectionGene);
             inputs.computeIfAbsent(connectionGene.getDestination(), (k) -> new ArrayList<>());
             inputs.get(connectionGene.getDestination()).add(connectionGene);
         }

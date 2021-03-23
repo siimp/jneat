@@ -39,6 +39,7 @@ public class NeuralNetwork {
             value = applyActivationFunction(summedInputs);
         }
 
+        nodeGene.setValue(value);
         return value;
     }
 
