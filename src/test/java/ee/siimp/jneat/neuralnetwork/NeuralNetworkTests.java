@@ -33,11 +33,11 @@ public class NeuralNetworkTests {
         genome.addGene(genePool.getConnectionGene(input1, output));
         genome.addGene(genePool.getConnectionGene(input2, output));
 
-        NeuralNetwork.calculate(genome, -1.0, -1.0);
-        assertEquals( -2.0, NeuralNetwork.getValue(genome)[0],0.1);
+        double[] result = NeuralNetwork.calculate(genome, -1.0, -1.0);
+        assertEquals( -2.0, result[0],0.1);
 
-        NeuralNetwork.calculate(genome, 1.0, 1.0);
-        assertEquals( 2.0, NeuralNetwork.getValue(genome)[0], 0.1);
+        result = NeuralNetwork.calculate(genome, 1.0, 1.0);
+        assertEquals( 2.0, result[0], 0.1);
 
     }
 
@@ -58,14 +58,14 @@ public class NeuralNetworkTests {
 
         genome.addGene(genePool.getConnectionGene(hidden, output));
 
-        NeuralNetwork.calculate(genome, -100.0);
-        assertEquals( 0.0, NeuralNetwork.getValue(genome)[0],0.1);
+        double[] result = NeuralNetwork.calculate(genome, -100.0);
+        assertEquals( 0.0, result[0],0.1);
 
-        NeuralNetwork.calculate(genome, 0.0);
-        assertEquals( 0.0, NeuralNetwork.getValue(genome)[0], 0.1);
+        result = NeuralNetwork.calculate(genome, 0.0);
+        assertEquals( 0.0, result[0], 0.1);
 
-        NeuralNetwork.calculate(genome, 100.0);
-        assertEquals( 100.0, NeuralNetwork.getValue(genome)[0], 0.1);
+        result = NeuralNetwork.calculate(genome, 100.0);
+        assertEquals( 100.0, result[0], 0.1);
 
     }
 
@@ -83,8 +83,8 @@ public class NeuralNetworkTests {
         connectionGene.setExpressed(false);
         genome.addGene(connectionGene);
 
-        NeuralNetwork.calculate(genome, -1.0);
-        assertEquals( 0, NeuralNetwork.getValue(genome)[0],0.1);
+        double[] result = NeuralNetwork.calculate(genome, -1.0);
+        assertEquals( 0, result[0],0.1);
 
     }
 
@@ -101,8 +101,8 @@ public class NeuralNetworkTests {
 
         genome.addGene(genePool.getConnectionGene(input, output));
 
-        NeuralNetwork.calculate(genome, 1.0);
-        assertEquals( 2, NeuralNetwork.getValue(genome)[0],0.1);
+        double[] result = NeuralNetwork.calculate(genome, 1.0);
+        assertEquals( 2, result[0],0.1);
     }
 
     @Test
@@ -110,17 +110,17 @@ public class NeuralNetworkTests {
 
         Genome genome = getXorGenome();
 
-        NeuralNetwork.calculate(genome, 0.0, 0.0);
-        assertEquals(0.0, NeuralNetwork.getValue(genome)[0], 0.1);
+        double[] result = NeuralNetwork.calculate(genome, 0.0, 0.0);
+        assertEquals(0.0, result[0], 0.1);
 
-        NeuralNetwork.calculate(genome, 1.0, 0.0);
-        assertEquals(1.0, NeuralNetwork.getValue(genome)[0], 0.1);
+        result = NeuralNetwork.calculate(genome, 1.0, 0.0);
+        assertEquals(1.0, result[0], 0.1);
 
-        NeuralNetwork.calculate(genome, 0.0, 1.0);
-        assertEquals(1.0, NeuralNetwork.getValue(genome)[0], 0.1);
+        result = NeuralNetwork.calculate(genome, 0.0, 1.0);
+        assertEquals(1.0, result[0], 0.1);
 
-        NeuralNetwork.calculate(genome,1.0, 1.0);
-        assertEquals(0.0, NeuralNetwork.getValue(genome)[0], 0.1);
+        result = NeuralNetwork.calculate(genome,1.0, 1.0);
+        assertEquals(0.0, result[0], 0.1);
 
     }
 
@@ -129,7 +129,7 @@ public class NeuralNetworkTests {
         Genome genome = getXorGenome();
 
         // warmup
-        for(int i = 0; i < 10_000_000; i++) {
+        for(int i = 0; i < 100_000_000; i++) {
             NeuralNetwork.calculate(genome, 0.0, 0.0);
         }
 

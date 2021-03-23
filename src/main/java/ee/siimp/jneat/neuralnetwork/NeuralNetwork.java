@@ -3,19 +3,20 @@ package ee.siimp.jneat.neuralnetwork;
 import ee.siimp.jneat.genetics.ConnectionGene;
 import ee.siimp.jneat.genetics.Genome;
 import ee.siimp.jneat.genetics.NodeGene;
-import ee.siimp.jneat.genetics.OutputNodeGene;
 
 public class NeuralNetwork {
 
-    public static void calculate(Genome genome, double... inputs) {
+    public static double[] calculate(Genome genome, double... inputs) {
         for (int i = 0; i < inputs.length; i++) {
             genome.getInputNodeGenes().get(i).setValue(inputs[i]);
         }
 
-        for (NodeGene nodeGene : genome.getOutputNodeGenes()) {
-            nodeGene.setValue(calculateRecursive(genome, nodeGene));
+        double[] result = new double[genome.getOutputNodeGenes().size()];
+        for (int i = 0; i < genome.getOutputNodeGenes().size(); i++) {
+            result[i] = calculateRecursive(genome, genome.getOutputNodeGenes().get(i));
         }
 
+        return result;
     }
 
     private static double calculateRecursive(Genome genome, NodeGene nodeGene) {
@@ -53,7 +54,4 @@ public class NeuralNetwork {
         return Math.max(0, sum);
     }
 
-    public static double[] getValue(Genome genome) {
-        return genome.getOutputNodeGenes().stream().mapToDouble(OutputNodeGene::getValue).toArray();
-    }
 }
