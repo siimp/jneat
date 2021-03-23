@@ -13,7 +13,7 @@ import java.util.Map;
 @Setter
 public class Genome {
 
-    private List<Gene> genes = new ArrayList<>();
+    // private List<Gene> genes = new ArrayList<>();
 
     private List<OutputNodeGene> outputNodeGenes = new ArrayList<>();
 
@@ -22,7 +22,7 @@ public class Genome {
     private Map<NodeGene, List<ConnectionGene>> inputs = new HashMap<>();
 
     public void addGene(Gene gene) {
-        genes.add(gene);
+        // genes.add(gene);
 
         if (gene.isOutput()) {
             outputNodeGenes.add((OutputNodeGene) gene);
