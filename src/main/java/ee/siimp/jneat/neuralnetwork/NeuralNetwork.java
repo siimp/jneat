@@ -1,12 +1,14 @@
 package ee.siimp.jneat.neuralnetwork;
 
-import ee.siimp.jneat.genetics.ConnectionGene;
-import ee.siimp.jneat.genetics.Genome;
-import ee.siimp.jneat.genetics.NodeGene;
+import ee.siimp.jneat.genetics.*;
 
 public class NeuralNetwork {
 
-    public static void calculate(Genome genome) {
+    public static void calculate(Genome genome, double... inputs) {
+        for (int i = 0; i < inputs.length; i++) {
+            genome.getInputNodeGenes().get(i).setValue(inputs[i]);
+        }
+
         for (NodeGene nodeGene : genome.getOutputNodeGenes()) {
             nodeGene.setValue(calculateRecursive(genome, nodeGene));
         }
@@ -47,4 +49,7 @@ public class NeuralNetwork {
         return Math.max(0, sum);
     }
 
+    public static double[] getValue(Genome genome) {
+        return genome.getOutputNodeGenes().stream().mapToDouble(OutputNodeGene::getValue).toArray();
+    }
 }

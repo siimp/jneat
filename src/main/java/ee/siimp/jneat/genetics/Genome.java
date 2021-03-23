@@ -34,5 +34,4 @@ public class Genome {
             inputs.get(connectionGene.getDestination()).add(connectionGene);
         }
     }
-
 }
