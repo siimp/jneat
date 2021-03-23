@@ -1,6 +1,5 @@
 package ee.siimp.jneat.genetics;
 
-import ee.siimp.jneat.neuralnetwork.NeuralNetwork;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,8 +12,6 @@ import java.util.Map;
 @Setter
 public class Genome {
 
-    // private List<Gene> genes = new ArrayList<>();
-
     private List<OutputNodeGene> outputNodeGenes = new ArrayList<>();
 
     private List<InputNodeGene> inputNodeGenes = new ArrayList<>();
@@ -22,8 +19,6 @@ public class Genome {
     private Map<NodeGene, List<ConnectionGene>> inputs = new HashMap<>();
 
     public void addGene(Gene gene) {
-        // genes.add(gene);
-
         if (gene.isOutput()) {
             outputNodeGenes.add((OutputNodeGene) gene);
         } else if (gene.isInput()) {

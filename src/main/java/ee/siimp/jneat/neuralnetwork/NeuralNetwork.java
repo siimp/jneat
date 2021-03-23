@@ -1,6 +1,9 @@
 package ee.siimp.jneat.neuralnetwork;
 
-import ee.siimp.jneat.genetics.*;
+import ee.siimp.jneat.genetics.ConnectionGene;
+import ee.siimp.jneat.genetics.Genome;
+import ee.siimp.jneat.genetics.NodeGene;
+import ee.siimp.jneat.genetics.OutputNodeGene;
 
 public class NeuralNetwork {
 
@@ -12,6 +15,7 @@ public class NeuralNetwork {
         for (NodeGene nodeGene : genome.getOutputNodeGenes()) {
             nodeGene.setValue(calculateRecursive(genome, nodeGene));
         }
+
     }
 
     private static double calculateRecursive(Genome genome, NodeGene nodeGene) {

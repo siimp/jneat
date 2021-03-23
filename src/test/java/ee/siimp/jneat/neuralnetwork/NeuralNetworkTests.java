@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class NeuralNetworkTests {
@@ -33,10 +34,10 @@ public class NeuralNetworkTests {
         genome.addGene(genePool.getConnectionGene(input2, output));
 
         NeuralNetwork.calculate(genome, -1.0, -1.0);
-        assertEquals( -2, NeuralNetwork.getValue(genome)[0],0.1);
+        assertEquals( -2.0, NeuralNetwork.getValue(genome)[0],0.1);
 
         NeuralNetwork.calculate(genome, 1.0, 1.0);
-        assertEquals( 2, NeuralNetwork.getValue(genome)[0], 0.1);
+        assertEquals( 2.0, NeuralNetwork.getValue(genome)[0], 0.1);
 
     }
 
@@ -121,6 +122,24 @@ public class NeuralNetworkTests {
         NeuralNetwork.calculate(genome,1.0, 1.0);
         assertEquals(0.0, NeuralNetwork.getValue(genome)[0], 0.1);
 
+    }
+
+    @Test
+    public void testPerformance() {
+        Genome genome = getXorGenome();
+
+        // warmup
+        for(int i = 0; i < 10_000_000; i++) {
+            NeuralNetwork.calculate(genome, 0.0, 0.0);
+        }
+
+        long start = System.currentTimeMillis();
+        for(int i = 0; i < 10_000_000; i++) {
+            NeuralNetwork.calculate(genome, 0.0, 0.0);
+        }
+        long durationInMillis = System.currentTimeMillis() - start;
+        System.out.println("Duration " + durationInMillis + " millis");
+        assertTrue(durationInMillis < 500);
     }
 
     private Genome getXorGenome() {
