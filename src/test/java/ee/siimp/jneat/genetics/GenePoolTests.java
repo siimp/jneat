@@ -21,16 +21,16 @@ public class GenePoolTests {
         genome1.addGene(genePool.getInputNodeGene(0));
         genome1.addGene(genePool.getInputNodeGene(1));
         genome1.addGene(genePool.getOutputNodeGene(0));
-        genome1.addGene(genePool.getConnectionGene(genome1.getInputNodeGenes().get(0),
+        genome1.addGene(genePool.getNewConnectionGene(genome1.getInputNodeGenes().get(0),
                 genome1.getOutputNodeGenes().get(0)));
-        genome1.addGene(genePool.getConnectionGene(genome1.getInputNodeGenes().get(1),
+        genome1.addGene(genePool.getNewConnectionGene(genome1.getInputNodeGenes().get(1),
                 genome1.getOutputNodeGenes().get(0)));
 
         Genome genome2 = new Genome();
         genome2.addGene(genePool.getInputNodeGene(0));
         genome2.addGene(genePool.getInputNodeGene(1));
         genome2.addGene(genePool.getOutputNodeGene(0));
-        genome2.addGene(genePool.getConnectionGene(genome2.getInputNodeGenes().get(0),
+        genome2.addGene(genePool.getNewConnectionGene(genome2.getInputNodeGenes().get(0),
                 genome2.getOutputNodeGenes().get(0)));
 
         assertEquals(genome1.getInputNodeGenes().get(0), genome2.getInputNodeGenes().get(0));

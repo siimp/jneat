@@ -25,7 +25,7 @@ public class GenePool {
 
     private int globalInnovationNumber = 1;
 
-    public ConnectionGene getConnectionGene(NodeGene source, NodeGene destination) {
+    public ConnectionGene getNewConnectionGene(NodeGene source, NodeGene destination) {
         Integer innovationNumber = getInnovationNumber(source, destination);
         return new ConnectionGene(source, destination, innovationNumber);
     }

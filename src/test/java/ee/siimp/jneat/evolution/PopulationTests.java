@@ -20,7 +20,7 @@ public class PopulationTests {
         Genome genome1 = createSimpleGenome(1.0);
         Genome genome2 = createGenome(-1.0);
 
-        Genome offspring = Population.getOffspring(genome1, genome2);
+        Genome offspring = GenomeUtils.getOffspring(genome1, genome2);
         assertEquals(1, offspring.getConnectionGenes().size());
 
     }
@@ -30,7 +30,7 @@ public class PopulationTests {
         Genome genome1 = createSimpleGenome(-1.0);
         Genome genome2 = createGenome(1.0);
 
-        Genome offspring = Population.getOffspring(genome1, genome2);
+        Genome offspring = GenomeUtils.getOffspring(genome1, genome2);
         assertEquals(2, offspring.getConnectionGenes().size());
     }
 
@@ -39,7 +39,7 @@ public class PopulationTests {
         Genome genome1 = createSimpleGenome(1.0);
         Genome genome2 = createGenome(1.0);
 
-        Genome offspring = Population.getOffspring(genome1, genome2);
+        Genome offspring = GenomeUtils.getOffspring(genome1, genome2);
         assertTrue(offspring.getConnectionGenes().size() >= 1);
     }
 
@@ -53,7 +53,7 @@ public class PopulationTests {
         InputNodeGene input = genePool.getInputNodeGene(0);
         genome.addGene(input);
 
-        genome.addGene(genePool.getConnectionGene(input, output));
+        genome.addGene(genePool.getNewConnectionGene(input, output));
 
         return genome;
     }
@@ -71,9 +71,9 @@ public class PopulationTests {
         HiddenNodeGene hidden = genePool.getHiddenNodeGene(0);
         genome.addGene(hidden);
 
-        genome.addGene(genePool.getConnectionGene(input, hidden));
+        genome.addGene(genePool.getNewConnectionGene(input, hidden));
 
-        genome.addGene(genePool.getConnectionGene(hidden, output));
+        genome.addGene(genePool.getNewConnectionGene(hidden, output));
 
         return genome;
     }
