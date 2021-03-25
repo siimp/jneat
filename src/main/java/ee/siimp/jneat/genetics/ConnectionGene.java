@@ -28,4 +28,15 @@ public class ConnectionGene implements Gene {
     public boolean isConnection() {
         return true;
     }
+
+    public static Gene clone(ConnectionGene connectionGene) {
+        ConnectionGene clonedConnectionGene = new ConnectionGene(
+                connectionGene.getSource(),
+                connectionGene.getDestination(),
+                connectionGene.getInnovation()
+        );
+        clonedConnectionGene.setWeight(connectionGene.getWeight());
+        clonedConnectionGene.setExpressed(connectionGene.isExpressed());
+        return clonedConnectionGene;
+    }
 }

@@ -10,6 +10,22 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class NeuralNetworkTests {
 
+    private static final double DELTA = 0.0001;
+
+    private static final double[][] XOR_INPUTS = new double[][]{
+            new double[]{0.0, 0.0},
+            new double[]{1.0, 0.0},
+            new double[]{0.0, 1.0},
+            new double[]{1.0, 1.0}
+    };
+
+    private static final double[][] XOR_OUTPUTS = new double[][]{
+            new double[]{0.0},
+            new double[]{1.0},
+            new double[]{1.0},
+            new double[]{0.0},
+    };
+
     private GenePool genePool;
 
     @BeforeEach
@@ -34,10 +50,10 @@ public class NeuralNetworkTests {
         genome.addGene(genePool.getConnectionGene(input2, output));
 
         double[] result = NeuralNetwork.calculate(genome, -1.0, -1.0);
-        assertEquals( -2.0, result[0],0.1);
+        assertEquals(-2.0, result[0], DELTA);
 
         result = NeuralNetwork.calculate(genome, 1.0, 1.0);
-        assertEquals( 2.0, result[0], 0.1);
+        assertEquals(2.0, result[0], DELTA);
 
     }
 
@@ -59,13 +75,13 @@ public class NeuralNetworkTests {
         genome.addGene(genePool.getConnectionGene(hidden, output));
 
         double[] result = NeuralNetwork.calculate(genome, -100.0);
-        assertEquals( 0.0, result[0],0.1);
+        assertEquals(0.0, result[0], DELTA);
 
         result = NeuralNetwork.calculate(genome, 0.0);
-        assertEquals( 0.0, result[0], 0.1);
+        assertEquals(0.0, result[0], DELTA);
 
         result = NeuralNetwork.calculate(genome, 100.0);
-        assertEquals( 100.0, result[0], 0.1);
+        assertEquals(100.0, result[0], DELTA);
 
     }
 
@@ -84,7 +100,7 @@ public class NeuralNetworkTests {
         genome.addGene(connectionGene);
 
         double[] result = NeuralNetwork.calculate(genome, -1.0);
-        assertEquals( 0, result[0],0.1);
+        assertEquals(0, result[0], DELTA);
 
     }
 
@@ -102,39 +118,46 @@ public class NeuralNetworkTests {
         genome.addGene(genePool.getConnectionGene(input, output));
 
         double[] result = NeuralNetwork.calculate(genome, 1.0);
-        assertEquals( 2, result[0],0.1);
+        assertEquals(2, result[0], DELTA);
     }
 
     @Test
-    public void testOptimalXorNetworkCalculation() {
+    public void testXorNetworkCalculation() {
 
         Genome genome = getXorGenome();
 
         double[] result = NeuralNetwork.calculate(genome, 0.0, 0.0);
-        assertEquals(0.0, result[0], 0.1);
+        assertEquals(0.0, result[0], DELTA);
 
         result = NeuralNetwork.calculate(genome, 1.0, 0.0);
-        assertEquals(1.0, result[0], 0.1);
+        assertEquals(1.0, result[0], DELTA);
 
         result = NeuralNetwork.calculate(genome, 0.0, 1.0);
-        assertEquals(1.0, result[0], 0.1);
+        assertEquals(1.0, result[0], DELTA);
 
-        result = NeuralNetwork.calculate(genome,1.0, 1.0);
-        assertEquals(0.0, result[0], 0.1);
+        result = NeuralNetwork.calculate(genome, 1.0, 1.0);
+        assertEquals(0.0, result[0], DELTA);
 
     }
 
     @Test
-    public void testPerformance() {
+    public void testXorNetworkFitness() {
+        Genome genome = getXorGenome();
+        GenomeUtils.calculateFitness(genome, XOR_INPUTS, XOR_OUTPUTS);
+        assertEquals(0.0, genome.getFitness(), DELTA);
+    }
+
+    @Test
+    public void testXorCalculationPerformance() {
         Genome genome = getXorGenome();
 
         // warmup
-        for(int i = 0; i < 100_000_000; i++) {
+        for (int i = 0; i < 100_000_000; i++) {
             NeuralNetwork.calculate(genome, 0.0, 0.0);
         }
 
         long start = System.currentTimeMillis();
-        for(int i = 0; i < 10_000_000; i++) {
+        for (int i = 0; i < 10_000_000; i++) {
             NeuralNetwork.calculate(genome, 0.0, 0.0);
         }
         long durationInMillis = System.currentTimeMillis() - start;

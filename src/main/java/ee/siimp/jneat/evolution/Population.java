@@ -22,25 +22,83 @@ public class Population {
     there’s a preset chance that an inherited gene is disabled if it is disabled in either parent.
      */
     public static Genome getOffspring(Genome parent, Genome otherParent) {
-        Genome offspring = new Genome();
-        offspring.setInputNodeGenes(parent.getInputNodeGenes());
-        offspring.setOutputNodeGenes(parent.getOutputNodeGenes());
+        boolean hasEqualFitness = false;
+        Genome moreFitParent;
+        Genome lessFitParent;
 
-        for (int i = 0; i < parent.getConnectionGenes().size(); i++) {
-            ConnectionGene parentConnectionGene = parent.getConnectionGenes().get(i);
-            for (int j = 0; j < otherParent.getConnectionGenes().size(); j++) {
-                ConnectionGene otherParentConnectionGene = otherParent.getConnectionGenes().get(j);
-                if (parentConnectionGene.getInnovation() == otherParentConnectionGene.getInnovation()) {
+        if (parent.compareTo(otherParent) > 0) {
+            moreFitParent = parent;
+            lessFitParent = otherParent;
+        } else if (parent.compareTo(otherParent) < 0) {
+            moreFitParent = otherParent;
+            lessFitParent = parent;
+        } else {
+            hasEqualFitness = true;
+            if (RANDOM.nextBoolean()) {
+                moreFitParent = parent;
+                lessFitParent = otherParent;
+            } else {
+                moreFitParent = otherParent;
+                lessFitParent = parent;
+            }
+        }
+
+        Genome offspring = new Genome();
+        offspring.setInputNodeGenes(moreFitParent.getInputNodeGenes());
+        offspring.setOutputNodeGenes(moreFitParent.getOutputNodeGenes());
+
+        // randomly add all matching genes
+        for (int i = 0; i < moreFitParent.getConnectionGenes().size(); i++) {
+            ConnectionGene moreFitParentConnectionGene = moreFitParent.getConnectionGenes().get(i);
+            boolean matchingGeneFound = false;
+            for (int j = 0; j < lessFitParent.getConnectionGenes().size(); j++) {
+                ConnectionGene lessFitParentConnectionGene = lessFitParent.getConnectionGenes().get(j);
+                if (moreFitParentConnectionGene.getInnovation() == lessFitParentConnectionGene.getInnovation()) {
                     // match
                     if (RANDOM.nextBoolean()) {
-                        offspring.addGene(parentConnectionGene);
+                        offspring.addGene(ConnectionGene.clone(moreFitParentConnectionGene));
                     } else {
-                        offspring.addGene(otherParentConnectionGene);
+                        offspring.addGene(ConnectionGene.clone(lessFitParentConnectionGene));
                     }
+                    matchingGeneFound = true;
                     break;
                 }
-                // disjoint
-                // excess
+            }
+
+            // all disjoint and excess genes are inherited from more fit parent
+            if (!matchingGeneFound) {
+                if (!hasEqualFitness) {
+                    offspring.addGene(ConnectionGene.clone(moreFitParentConnectionGene));
+                } else {
+                    if (RANDOM.nextBoolean()) {
+                        offspring.addGene(ConnectionGene.clone(moreFitParentConnectionGene));
+                    }
+                }
+            }
+        }
+
+        if (hasEqualFitness) {
+            for (int j = 0; j < lessFitParent.getConnectionGenes().size(); j++) {
+                ConnectionGene lessFitParentConnectionGene = lessFitParent.getConnectionGenes().get(j);
+                boolean matchingGeneFound = false;
+
+                ConnectionGene moreFitParentConnectionGene = null;
+                for (int i = 0; i < moreFitParent.getConnectionGenes().size(); i++) {
+                    moreFitParentConnectionGene = moreFitParent.getConnectionGenes().get(i);
+                    if (moreFitParentConnectionGene.getInnovation() == lessFitParentConnectionGene.getInnovation()) {
+                        matchingGeneFound = true;
+                        break;
+                    }
+                }
+
+                if (!matchingGeneFound) {
+                    if (RANDOM.nextBoolean() && moreFitParentConnectionGene != null) {
+                        offspring.addGene(ConnectionGene.clone(moreFitParentConnectionGene));
+                    } else {
+                        offspring.addGene(ConnectionGene.clone(lessFitParentConnectionGene));
+                    }
+                }
+
             }
         }
 
