@@ -43,17 +43,15 @@ public class PopulationTests {
         assertTrue(offspring.getConnectionGenes().size() >= 1);
     }
 
+    @Test
+    public void testCreatePopulation() {
+        Population population = Population.create(1, 1);
+        assertEquals(Parameter.POPULATION_SIZE, population.getGenomes().size());
+    }
+
     private Genome createSimpleGenome(double fitness) {
-        Genome genome = new Genome();
+        Genome genome = Genome.create(genePool, 1, 1);
         genome.setFitness(fitness);
-
-        OutputNodeGene output = genePool.getOutputNodeGene(0);
-        genome.addGene(output);
-
-        InputNodeGene input = genePool.getInputNodeGene(0);
-        genome.addGene(input);
-
-        genome.addGene(genePool.getNewConnectionGene(input, output));
 
         return genome;
     }

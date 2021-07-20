@@ -35,19 +35,7 @@ public class NeuralNetworkTests {
 
     @Test
     public void testNoActivationFunctionBetweenInputAndOutput() {
-        Genome genome = new Genome();
-
-        OutputNodeGene output = genePool.getOutputNodeGene(0);
-        genome.addGene(output);
-
-        InputNodeGene input1 = genePool.getInputNodeGene(0);
-        genome.addGene(input1);
-
-        InputNodeGene input2 = genePool.getInputNodeGene(1);
-        genome.addGene(input2);
-
-        genome.addGene(genePool.getNewConnectionGene(input1, output));
-        genome.addGene(genePool.getNewConnectionGene(input2, output));
+        Genome genome = Genome.create(genePool, 2, 1);
 
         double[] result = NeuralNetwork.calculate(genome, -1.0, -1.0);
         assertEquals(-2.0, result[0], DELTA);
@@ -87,17 +75,9 @@ public class NeuralNetworkTests {
 
     @Test
     public void testNotExpressedCalculation() {
-        Genome genome = new Genome();
+        Genome genome = Genome.create(genePool, 1, 1);
 
-        OutputNodeGene output = genePool.getOutputNodeGene(0);
-        genome.addGene(output);
-
-        InputNodeGene input = genePool.getInputNodeGene(0);
-        genome.addGene(input);
-
-        ConnectionGene connectionGene = genePool.getNewConnectionGene(input, output);
-        connectionGene.setExpressed(false);
-        genome.addGene(connectionGene);
+        genome.getConnectionGenes().get(0).setExpressed(false);
 
         double[] result = NeuralNetwork.calculate(genome, -1.0);
         assertEquals(0, result[0], DELTA);
@@ -106,16 +86,8 @@ public class NeuralNetworkTests {
 
     @Test
     public void testBias() {
-        Genome genome = new Genome();
-
-        OutputNodeGene output = genePool.getOutputNodeGene(0);
-        genome.addGene(output);
-        output.setBias(1);
-
-        InputNodeGene input = genePool.getInputNodeGene(0);
-        genome.addGene(input);
-
-        genome.addGene(genePool.getNewConnectionGene(input, output));
+        Genome genome = Genome.create(genePool, 1, 1);
+        genome.getOutputNodeGenes().get(0).setBias(1.0);
 
         double[] result = NeuralNetwork.calculate(genome, 1.0);
         assertEquals(2, result[0], DELTA);

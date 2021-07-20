@@ -35,6 +35,29 @@ public class Genome implements Comparable<Genome> {
         }
     }
 
+    /**
+     * In contrast, NEAT
+     * biases the search towards minimal-dimensional spaces by starting out with a uniform
+     * population of networks with zero hidden nodes (i.e., all inputs connect directly to out-
+     * puts).
+     */
+    public static Genome create(GenePool genePool, int numberOfInputs, int numberOfOutputs) {
+        Genome genome = new Genome();
+        for (int outputNodeIndex = 0; outputNodeIndex < numberOfOutputs; outputNodeIndex++) {
+            genome.addGene(genePool.getOutputNodeGene(outputNodeIndex));
+        }
+
+        for (int inputNodeIndex = 0; inputNodeIndex < numberOfInputs; inputNodeIndex++) {
+            InputNodeGene input = genePool.getInputNodeGene(inputNodeIndex);
+            genome.addGene(input);
+            for (OutputNodeGene output: genome.getOutputNodeGenes()) {
+                genome.addGene(genePool.getNewConnectionGene(input, output));
+            }
+        }
+
+        return genome;
+    }
+
     @Override
     public int compareTo(Genome other) {
         return Double.compare(this.getFitness(), other.getFitness());
