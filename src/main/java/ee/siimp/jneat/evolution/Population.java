@@ -2,7 +2,6 @@ package ee.siimp.jneat.evolution;
 
 import ee.siimp.jneat.genetics.GenePool;
 import ee.siimp.jneat.genetics.Genome;
-import ee.siimp.jneat.genetics.GenomeUtils;
 import lombok.Getter;
 
 import java.util.ArrayList;

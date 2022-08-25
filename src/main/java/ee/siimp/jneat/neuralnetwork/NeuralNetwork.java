@@ -46,7 +46,7 @@ public class NeuralNetwork {
     private static double applyActivationFunction(double sum) {
         return applyRelu(sum);
     }
-
+    
     private static double applySigmoid(double sum) {
         return 1.0 / (1.0 + Math.pow(Math.E, -1.0 * sum));
     }

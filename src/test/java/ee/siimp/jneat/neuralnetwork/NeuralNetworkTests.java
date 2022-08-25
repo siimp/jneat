@@ -134,7 +134,7 @@ public class NeuralNetworkTests {
         }
         long durationInMillis = System.currentTimeMillis() - start;
         System.out.println("Duration " + durationInMillis + " millis");
-        assertTrue(durationInMillis < 500);
+        assertTrue(durationInMillis < 1000);
     }
 
     private Genome getXorGenome() {

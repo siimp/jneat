@@ -3,6 +3,7 @@ Thumbs.db
 .gradle
 build/
 target/
+bin/
 out/
 .idea
 *.iml
@@ -11,3 +12,4 @@ out/
 .project
 .settings
 .classpath
+.vscode/
